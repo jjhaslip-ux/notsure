@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOT SURE — Reporting in Progress</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Oswald:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --navy-mid: #1a2d5a;
+    --navy-light: #1e3566;
+    --crimson: #b31b2e;
+    --crimson-bright: #d4192f;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-dark: #a07830;
+    --white: #ffffff;
+    --off-white: #f8f6f0;
+    --marble-light: #f4f2ee;
+    --marble-mid: #e8e4dc;
+    --text-dark: #0d1b3e;
+    --text-mid: #2a3a5c;
+    --text-light: #6b7a96;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Source Serif 4',Georgia,serif; background:var(--off-white); color:var(--text-dark); overflow-x:hidden; }
+
+  /* ── UTILITY BAR ── */
+  .utility-bar { background:var(--navy); color:rgba(255,255,255,0.7); font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; padding:6px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(201,168,76,.3); }
+  .utility-bar a { color:rgba(255,255,255,.7); text-decoration:none; }
+  .utility-bar a:hover { color:var(--gold-light); }
+  .utility-left,.utility-right { display:flex; gap:20px; align-items:center; }
+  .live-dot { display:inline-block; width:7px; height:7px; background:var(--crimson-bright); border-radius:50%; margin-right:5px; animation:pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+  /* ── MASTHEAD ── */
+  .masthead { background:var(--navy); position:relative; overflow:hidden; }
+  .masthead::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.08) 0%,transparent 70%); pointer-events:none; }
+  .masthead-inner { max-width:1400px; margin:0 auto; padding:18px 24px 0; display:flex; flex-direction:column; align-items:center; }
+  .masthead-top { display:flex; justify-content:space-between; align-items:center; width:100%; padding-bottom:14px; }
+  .masthead-date { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.45); }
+  .masthead-actions { display:flex; gap:12px; }
+  .btn-subscribe { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; background:var(--crimson); color:white; border:none; padding:7px 18px; cursor:pointer; transition:background .2s; }
+  .btn-subscribe:hover { background:var(--crimson-bright); }
+  .btn-signin { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; background:transparent; color:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.2); padding:7px 18px; cursor:pointer; transition:all .2s; }
+  .btn-signin:hover { border-color:var(--gold); color:var(--gold-light); }
+  .logo-area { padding:4px 0 20px; }
+  .logo-lockup { display:flex; align-items:center; gap:20px; }
+  .logo-circle { width:80px; height:80px; background:var(--navy-mid); border-radius:50%; border:3px solid rgba(201,168,76,.5); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; flex-shrink:0; }
+  .logo-circle::before { content:''; position:absolute; bottom:0; left:0; right:0; height:35%; background:repeating-linear-gradient(180deg,var(--crimson) 0,var(--crimson) 5px,white 5px,white 8px,var(--crimson) 8px,var(--crimson) 13px); }
+  .logo-circle-stars { position:absolute; top:8px; left:50%; transform:translateX(-50%); display:flex; gap:3px; }
+  .logo-circle-stars span { color:white; font-size:7px; }
+  .logo-circle-text { position:relative; text-align:center; z-index:2; }
+  .logo-circle-text .not { font-family:'Oswald',sans-serif; font-weight:600; font-size:13px; color:white; letter-spacing:.05em; display:block; }
+  .logo-circle-text .sure { font-family:'Oswald',sans-serif; font-weight:700; font-size:20px; color:white; display:block; line-height:1; }
+  .logo-wordmark { display:flex; flex-direction:column; }
+  .logo-name { font-family:'Playfair Display',serif; font-weight:900; font-size:52px; color:white; line-height:1; }
+  .logo-name em { font-style:normal; color:var(--gold); }
+  .logo-tagline { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-top:4px; border-top:1px solid rgba(201,168,76,.3); padding-top:5px; }
+  .gold-rule { width:100%; height:3px; background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-light) 50%,var(--gold) 80%,transparent); }
+
+  /* ── NAV ── */
+  nav { background:var(--navy-mid); border-bottom:2px solid var(--gold); position:sticky; top:0; z-index:100; box-shadow:0 2px 20px rgba(0,0,0,.4); }
+  .nav-inner { max-width:1400px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
+  .nav-logo { font-family:'Oswald',sans-serif; font-weight:700; font-size:22px; color:white; padding:12px 20px 12px 0; border-right:1px solid rgba(201,168,76,.3); margin-right:4px; letter-spacing:.05em; }
+  .nav-logo span { color:var(--gold); }
+  .nav-links { display:flex; list-style:none; }
+  .nav-links li a { display:block; font-family:'Oswald',sans-serif; font-size:12px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.75); text-decoration:none; padding:16px 14px; transition:color .2s; position:relative; cursor:pointer; }
+  .nav-links li a::after { content:''; position:absolute; bottom:0; left:14px; right:14px; height:2px; background:var(--gold); transform:scaleX(0); transition:transform .2s; }
+  .nav-links li a:hover { color:white; }
+  .nav-links li a:hover::after { transform:scaleX(1); }
+  .nav-links li.active a { color:var(--gold-light); }
+  .nav-links li.active a::after { transform:scaleX(1); }
+  .nav-right { display:flex; align-items:center; gap:8px; }
+  .nav-search { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:white; padding:7px 14px; font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.08em; outline:none; width:200px; transition:border-color .2s; }
+  .nav-search::placeholder { color:rgba(255,255,255,.35); }
+  .nav-search:focus { border-color:var(--gold); }
+  .search-clear { background:none; border:none; color:rgba(255,255,255,.4); cursor:pointer; font-size:16px; padding:0 6px; display:none; }
+  .search-clear.visible { display:block; }
+
+  /* ── SEARCH RESULTS OVERLAY ── */
+  .search-overlay { display:none; position:fixed; inset:0; background:rgba(13,27,62,.97); z-index:200; overflow-y:auto; padding:80px 24px 40px; }
+  .search-overlay.active { display:block; }
+  .search-overlay-close { position:fixed; top:20px; right:28px; background:none; border:1px solid rgba(255,255,255,.2); color:white; font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:.12em; text-transform:uppercase; padding:8px 18px; cursor:pointer; }
+  .search-overlay-close:hover { border-color:var(--gold); color:var(--gold-light); }
+  .search-results-header { font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:24px; border-bottom:1px solid rgba(201,168,76,.2); padding-bottom:12px; max-width:900px; margin-left:auto; margin-right:auto; }
+  .search-results-grid { max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:2px; }
+  .search-result-item { background:rgba(255,255,255,.04); border-left:3px solid transparent; padding:18px 20px; cursor:pointer; transition:all .2s; }
+  .search-result-item:hover { background:rgba(255,255,255,.07); border-color:var(--gold); }
+  .search-result-cat { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+  .search-result-title { font-family:'Playfair Display',serif; font-weight:700; font-size:20px; color:white; line-height:1.25; margin-bottom:6px; }
+  .search-result-deck { font-size:13px; color:rgba(255,255,255,.55); line-height:1.6; margin-bottom:8px; }
+  .search-result-meta { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.3); }
+  .search-no-results { text-align:center; padding:60px 0; font-family:'Oswald',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.25); font-size:14px; }
+
+  /* ── TICKER ── */
+  .ticker-bar { background:var(--crimson); display:flex; align-items:stretch; overflow:hidden; }
+  .ticker-label { background:var(--navy); font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-light); padding:8px 18px; white-space:nowrap; display:flex; align-items:center; gap:6px; flex-shrink:0; border-right:2px solid var(--gold); }
+  .ticker-track { overflow:hidden; flex:1; display:flex; align-items:center; }
+  .ticker-content { display:flex; gap:60px; animation:ticker 45s linear infinite; white-space:nowrap; }
+  .ticker-content span { font-family:'Oswald',sans-serif; font-size:12px; font-weight:500; letter-spacing:.05em; color:white; flex-shrink:0; }
+  .ticker-content span::before { content:'◆'; margin-right:8px; color:rgba(255,255,255,.5); font-size:8px; }
+  @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  /* ── SECTION HEADER ── */
+  .section-header { display:flex; align-items:center; margin-bottom:24px; }
+  .section-label { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:white; background:var(--navy); padding:6px 16px; border-left:4px solid var(--gold); white-space:nowrap; }
+  .section-line { flex:1; height:2px; background:linear-gradient(90deg,var(--navy) 0%,var(--marble-mid) 100%); }
+  .section-more { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-light); text-decoration:none; padding-left:16px; cursor:pointer; transition:color .2s; white-space:nowrap; }
+  .section-more:hover { color:var(--crimson); }
+
+  /* ── MAIN ── */
+  .main-content { max-width:1400px; margin:0 auto; padding:32px 24px; }
+
+  /* ── HERO GRID ── */
+  .hero-grid { display:grid; grid-template-columns:1fr 320px; gap:3px; margin-bottom:40px; background:var(--marble-mid); }
+  .hero-lead { grid-row:1/3; position:relative; overflow:hidden; cursor:pointer; background:var(--navy); min-height:480px; display:flex; flex-direction:column; }
+  .hero-lead-art { flex:1; min-height:480px; position:relative; }
+  .hero-lead-art-bg { width:100%; height:100%; position:absolute; inset:0; transition:transform .6s; }
+  .hero-lead:hover .hero-lead-art-bg { transform:scale(1.03); }
+  .hero-lead-overlay { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(0deg,rgba(13,27,62,.97) 0%,rgba(13,27,62,.7) 60%,transparent 100%); padding:48px 32px 32px; }
+  .hero-side { display:flex; flex-direction:column; gap:3px; }
+  .side-story { background:var(--navy-mid); position:relative; overflow:hidden; cursor:pointer; flex:1; min-height:155px; display:flex; flex-direction:column; justify-content:flex-end; padding:20px; transition:background .2s; }
+  .side-story::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(201,168,76,.05) 0%,transparent 60%); }
+  .side-story:hover { background:var(--navy-light); }
+  .side-story-num { position:absolute; top:14px; right:16px; font-family:'Playfair Display',serif; font-size:48px; font-weight:900; color:rgba(255,255,255,.05); line-height:1; }
+  .side-story-title { font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; line-height:1.3; color:white; margin-bottom:6px; position:relative; z-index:1; }
+  .side-story-meta { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); position:relative; z-index:1; }
+
+  /* ── STORY UTILS ── */
+  .story-category { display:inline-block; font-family:'Oswald',sans-serif; font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; background:var(--crimson); color:white; padding:4px 10px; margin-bottom:10px; }
+  .story-category.cat-world { background:#1a2a50; }
+  .story-category.cat-economy { background:#1a3020; }
+  .story-category.cat-technology,.story-category.cat-tech-society { background:#1a1a40; }
+  .story-category.cat-science { background:#0d2030; }
+  .story-category.cat-opinion,.story-category.cat-editorial,.story-category.cat-analysis,.story-category.cat-world-view { background:transparent; border:1px solid var(--gold); color:var(--gold-light); padding:3px 9px; }
+  .story-category.cat-senate,.story-category.cat-house,.story-category.cat-white-house { background:rgba(179,27,46,.7); }
+  .status-badge { display:inline-flex; align-items:center; gap:4px; font-family:'Oswald',sans-serif; font-size:9px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; padding:3px 8px; margin-left:8px; }
+  .status-rising { background:rgba(180,30,40,.15); color:var(--crimson-bright); border:1px solid rgba(180,30,40,.3); }
+  .status-rising::before { content:'↑'; }
+  .status-turning { background:rgba(201,168,76,.15); color:var(--gold); border:1px solid rgba(201,168,76,.3); }
+  .status-turning::before { content:'↻'; }
+  .status-settled { background:rgba(60,100,160,.15); color:#6a9fd4; border:1px solid rgba(60,100,160,.3); }
+  .status-settled::before { content:'●'; font-size:6px; }
+  .story-meta { display:flex; align-items:center; gap:10px; font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.45); flex-wrap:wrap; }
+  .story-meta .byline { color:var(--gold); }
+  .story-meta .sep { opacity:.3; }
+  .hero-lead-title { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; line-height:1.15; color:white; margin-bottom:12px; max-width:580px; }
+  .hero-lead-deck { font-size:15px; line-height:1.6; color:rgba(255,255,255,.75); max-width:520px; margin-bottom:14px; }
+
+  /* ── THREE COL ── */
+  .three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:40px; }
+  .story-card { cursor:pointer; }
+  .story-card-img-wrap { position:relative; overflow:hidden; margin-bottom:14px; }
+  .story-card-art { width:100%; height:200px; display:block; position:relative; }
+  .story-card:hover .story-card-art-bg { transform:scale(1.04); }
+  .story-card-art-bg { position:absolute; inset:0; transition:transform .5s; }
+  .story-card-gold-bar { position:absolute; bottom:0; left:0; width:100%; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold)); transform:scaleX(0); transform-origin:left; transition:transform .3s; }
+  .story-card:hover .story-card-gold-bar { transform:scaleX(1); }
+  .story-card-title { font-family:'Playfair Display',serif; font-weight:700; font-size:20px; line-height:1.25; color:var(--text-dark); margin-bottom:8px; transition:color .2s; }
+  .story-card:hover .story-card-title { color:var(--crimson); }
+  .story-card-deck { font-size:14px; line-height:1.65; color:var(--text-mid); margin-bottom:12px; }
+  .story-card-meta { display:flex; align-items:center; gap:10px; font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-light); }
+  .story-card-meta .byline { color:var(--gold-dark); }
+  .story-card-meta .sep { opacity:.4; }
+
+  /* ── OPINION BAND ── */
+  .opinion-band { background:var(--navy); padding:36px 0; margin:0 -24px 48px; position:relative; overflow:hidden; }
+  .opinion-band::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(90deg,transparent,transparent 120px,rgba(201,168,76,.04) 120px,rgba(201,168,76,.04) 121px); }
+  .opinion-band-inner { max-width:1400px; margin:0 auto; padding:0 24px; }
+  .opinion-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+  .opinion-card { background:rgba(255,255,255,.04); border-top:3px solid var(--gold); padding:24px; cursor:pointer; transition:background .2s; }
+  .opinion-card:hover { background:rgba(255,255,255,.07); }
+  .opinion-label { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+  .opinion-title { font-family:'Playfair Display',serif; font-weight:700; font-size:17px; line-height:1.3; color:white; margin-bottom:10px; }
+  .opinion-author { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+  .opinion-author strong { color:rgba(255,255,255,.65); }
+
+  /* ── LIVE SECTION ── */
+  .live-section { display:grid; grid-template-columns:2fr 1fr; gap:24px; margin-bottom:48px; }
+  .live-player { position:relative; background:#000; aspect-ratio:16/9; overflow:hidden; }
+  .live-player-bg { width:100%; height:100%; background:linear-gradient(135deg,var(--navy) 0%,#0a1020 100%); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+  .live-player-icon { width:64px; height:64px; border-radius:50%; background:var(--crimson); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .2s; }
+  .live-player-icon:hover { transform:scale(1.1); }
+  .live-player-icon svg { width:28px; height:28px; fill:white; margin-left:4px; }
+  .live-badge { display:flex; align-items:center; gap:6px; font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:white; }
+  .live-corner { position:absolute; top:14px; left:14px; display:flex; align-items:center; gap:6px; background:var(--crimson); font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:white; padding:4px 10px; }
+  .live-bar-bottom { position:absolute; bottom:0; left:0; right:0; background:rgba(13,27,62,.9); padding:10px 16px; display:flex; align-items:center; gap:12px; border-top:2px solid var(--gold); }
+  .live-bar-title { font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:.05em; color:white; flex:1; }
+  .live-time { font-family:'Oswald',sans-serif; font-size:11px; color:rgba(255,255,255,.4); }
+  .video-list { display:flex; flex-direction:column; gap:2px; }
+  .video-list-header { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dark); border-bottom:3px solid var(--gold); padding-bottom:8px; margin-bottom:2px; }
+  .video-item { display:flex; gap:12px; align-items:center; background:white; padding:12px; cursor:pointer; border-left:3px solid transparent; transition:border-color .2s,background .2s; }
+  .video-item:hover,.video-item.active { border-color:var(--gold); background:var(--marble-light); }
+  .video-thumb { width:90px; height:54px; background:var(--navy); flex-shrink:0; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .video-thumb-play { width:20px; height:20px; border-radius:50%; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; }
+  .video-thumb-play svg { width:8px; height:8px; fill:white; margin-left:2px; }
+  .video-item-title { font-family:'Oswald',sans-serif; font-size:13px; font-weight:500; line-height:1.35; color:var(--text-dark); flex:1; }
+  .video-item-time { font-family:'Oswald',sans-serif; font-size:10px; color:var(--text-light); flex-shrink:0; }
+
+  /* ── TWO COL ── */
+  .content-with-sidebar { display:grid; grid-template-columns:1fr 300px; gap:40px; margin-bottom:48px; }
+  .story-list-item { display:grid; grid-template-columns:120px 1fr; gap:16px; padding:20px 0; border-bottom:1px solid var(--marble-mid); cursor:pointer; align-items:start; }
+  .story-list-item:hover .story-list-title { color:var(--crimson); }
+  .story-list-art { width:120px; height:80px; flex-shrink:0; position:relative; overflow:hidden; }
+  .story-list-art-bg { position:absolute; inset:0; }
+  .story-list-title { font-family:'Playfair Display',serif; font-weight:700; font-size:17px; line-height:1.3; color:var(--text-dark); margin-bottom:6px; transition:color .2s; }
+  .story-list-deck { font-size:13px; line-height:1.6; color:var(--text-mid); }
+  .story-list-meta { display:flex; align-items:center; gap:10px; font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-light); margin-top:8px; }
+  .story-list-meta .byline { color:var(--gold-dark); }
+
+  /* ── SIDEBAR ── */
+  .sidebar-section-header { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--navy); border-bottom:3px solid var(--gold); padding-bottom:8px; margin-bottom:16px; }
+  .sidebar-widget { margin-bottom:32px; }
+  .trending-item { display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--marble-mid); cursor:pointer; }
+  .trending-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:900; color:var(--marble-mid); line-height:1; flex-shrink:0; width:32px; text-align:right; transition:color .2s; }
+  .trending-item:hover .trending-num { color:var(--gold); }
+  .trending-title { font-family:'Oswald',sans-serif; font-size:14px; font-weight:500; line-height:1.35; color:var(--text-dark); }
+  .trending-item:hover .trending-title { color:var(--crimson); }
+
+  /* ── NS INDEX ── */
+  .ns-index-widget { background:var(--navy); padding:20px; position:relative; overflow:hidden; }
+  .ns-index-widget::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(201,168,76,.07) 0%,transparent 60%); }
+  .ns-index-label { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-light); margin-bottom:4px; position:relative; }
+  .ns-index-story { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:8px; position:relative; }
+  .ns-index-score { font-family:'Playfair Display',serif; font-weight:900; font-size:42px; color:white; line-height:1; position:relative; }
+  .ns-index-score sup { font-family:'Oswald',sans-serif; font-size:12px; font-weight:400; color:var(--gold); vertical-align:super; margin-left:3px; }
+  .gold-divider { width:60px; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold-light)); margin:10px 0 14px; }
+  .ns-bars { display:flex; flex-direction:column; gap:8px; position:relative; }
+  .ns-bar-row { display:flex; align-items:center; gap:8px; }
+  .ns-bar-label { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.5); width:70px; flex-shrink:0; }
+  .ns-bar-track { flex:1; height:4px; background:rgba(255,255,255,.1); border-radius:2px; overflow:hidden; }
+  .ns-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold-dark),var(--gold-light)); border-radius:2px; width:0; transition:width 1.2s cubic-bezier(.4,0,.2,1); }
+  .ns-bar-val { font-family:'Oswald',sans-serif; font-size:11px; color:var(--gold-light); width:24px; text-align:right; flex-shrink:0; }
+
+  /* ── NEWSLETTER ── */
+  .newsletter-widget { background:var(--navy); padding:20px; position:relative; overflow:hidden; }
+  .newsletter-widget::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(201,168,76,.03) 10px,rgba(201,168,76,.03) 11px); }
+  .newsletter-title { font-family:'Playfair Display',serif; font-weight:700; font-size:20px; color:white; margin-bottom:4px; position:relative; }
+  .newsletter-sub { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; position:relative; }
+  .newsletter-desc { font-size:13px; color:rgba(255,255,255,.6); line-height:1.6; margin-bottom:16px; position:relative; }
+  .newsletter-input { width:100%; background:rgba(255,255,255,.08); border:1px solid rgba(201,168,76,.3); color:white; padding:9px 12px; font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:.05em; outline:none; margin-bottom:8px; display:block; position:relative; transition:border-color .2s; }
+  .newsletter-input:focus { border-color:var(--gold); }
+  .newsletter-btn { width:100%; background:var(--crimson); color:white; border:none; padding:10px; font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; position:relative; transition:background .2s; }
+  .newsletter-btn:hover { background:var(--crimson-bright); }
+  .newsletter-success { display:none; text-align:center; font-family:'Oswald',sans-serif; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--gold-light); padding:12px 0; position:relative; }
+
+  /* ── FOOTER ── */
+  footer { background:var(--navy); border-top:3px solid var(--gold); margin-top:48px; }
+  .footer-marble { background:linear-gradient(180deg,#f4f2ee 0%,#e8e4dc 100%); padding:40px 24px; }
+  .footer-marble-inner { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; }
+  .footer-brand-name { font-family:'Playfair Display',serif; font-weight:900; font-size:36px; color:var(--navy); line-height:1; margin-bottom:4px; }
+  .footer-brand-name span { color:var(--gold-dark); }
+  .footer-tagline { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--text-light); margin-bottom:14px; }
+  .footer-about { font-size:13px; line-height:1.7; color:var(--text-mid); }
+  .footer-col-title { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--navy); border-bottom:2px solid var(--gold); padding-bottom:8px; margin-bottom:14px; }
+  .footer-links { list-style:none; }
+  .footer-links li { padding:5px 0; border-bottom:1px solid var(--marble-mid); }
+  .footer-links li a { font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-mid); text-decoration:none; transition:color .2s; cursor:pointer; }
+  .footer-links li a:hover { color:var(--crimson); }
+  .footer-bottom { padding:16px 24px; }
+  .footer-bottom-inner { max-width:1400px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+  .footer-copy { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.3); }
+  .footer-copy strong { color:var(--gold); }
+  .footer-policy { display:flex; gap:20px; }
+  .footer-policy a { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
+  .footer-policy a:hover { color:var(--gold-light); }
+
+  /* ── LOADING STATE ── */
+  .loading-skeleton { background:linear-gradient(90deg,var(--marble-mid) 25%,var(--marble-light) 50%,var(--marble-mid) 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:2px; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* ── FADE IN ── */
+  .fade-in { opacity:0; transform:translateY(12px); animation:fadeIn .6s ease forwards; }
+  @keyframes fadeIn { to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+
+<!-- UTILITY BAR -->
+<div class="utility-bar">
+  <div class="utility-left">
+    <span><span class="live-dot"></span>LIVE COVERAGE</span>
+    <a href="#">U.S. Edition</a>
+    <a href="#">International</a>
+    <a href="#">Markets</a>
+  </div>
+  <div class="utility-right">
+    <a href="#">Newsletter</a>
+    <a href="#">Watch Live</a>
+    <a href="#">NS App</a>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-top">
+      <div class="masthead-date" id="liveDate"></div>
+      <div class="masthead-actions">
+        <button class="btn-signin">Sign In</button>
+        <button class="btn-subscribe">Subscribe</button>
+      </div>
+    </div>
+    <div class="logo-area">
+      <div class="logo-lockup">
+        <div class="logo-circle">
+          <div class="logo-circle-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <div class="logo-circle-text"><span class="not">NOT</span><span class="sure">SURE</span></div>
+        </div>
+        <div class="logo-wordmark">
+          <div class="logo-name">NOT <em>SURE</em></div>
+          <div class="logo-tagline">Reporting in Progress</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gold-rule"></div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div style="display:flex;align-items:center;">
+      <div class="nav-logo">NS<span>.</span></div>
+      <ul class="nav-links" id="navLinks">
+        <li class="active" data-section="all"><a>Home</a></li>
+        <li data-section="us-news"><a>U.S. News</a></li>
+        <li data-section="world"><a>World</a></li>
+        <li data-section="politics"><a>Politics</a></li>
+        <li data-section="economy"><a>Economy</a></li>
+        <li data-section="science"><a>Science</a></li>
+        <li data-section="technology"><a>Technology</a></li>
+        <li data-section="opinion"><a>Opinion</a></li>
+        <li data-section="watch"><a>Watch</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <input type="text" class="nav-search" id="navSearch" placeholder="Search NS...">
+      <button class="search-clear" id="searchClear">✕</button>
+    </div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-label"><span class="live-dot"></span>Breaking</div>
+  <div class="ticker-track">
+    <div class="ticker-content" id="tickerContent"></div>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-overlay-close" id="searchClose">✕ Close</button>
+  <div class="search-results-header" id="searchResultsHeader">Searching...</div>
+  <div class="search-results-grid" id="searchResultsGrid"></div>
+</div>
+
+<!-- MAIN -->
+<main class="main-content" id="mainContent">
+
+  <!-- HOME VIEW -->
+  <div id="homeView">
+
+    <!-- HERO -->
+    <div class="section-header">
+      <div class="section-label">Top Stories</div>
+      <div class="section-line"></div>
+      <span class="section-more" onclick="filterSection('all')">Full Coverage →</span>
+    </div>
+    <div class="hero-grid" id="heroGrid"></div>
+
+    <!-- GRID -->
+    <div class="section-header" style="margin-top:8px;">
+      <div class="section-label">Latest News</div>
+      <div class="section-line"></div>
+      <span class="section-more" onclick="filterSection('all')">All Stories →</span>
+    </div>
+    <div class="three-col" id="storyGrid"></div>
+
+    <!-- OPINION -->
+    <div class="opinion-band">
+      <div class="opinion-band-inner">
+        <div class="section-header" style="margin-bottom:20px;">
+          <div class="section-label" style="background:rgba(255,255,255,.08);color:var(--gold-light);">Analysis & Opinion</div>
+          <div class="section-line" style="background:linear-gradient(90deg,rgba(201,168,76,.3),transparent);"></div>
+          <span class="section-more" style="color:rgba(255,255,255,.35);" onclick="filterSection('opinion')">All Opinion →</span>
+        </div>
+        <div class="opinion-grid" id="opinionGrid"></div>
+      </div>
+    </div>
+
+    <!-- LIVE -->
+    <div class="section-header">
+      <div class="section-label">Watch NS</div>
+      <div class="section-line"></div>
+      <span class="section-more" onclick="filterSection('watch')">Full Schedule →</span>
+    </div>
+    <div class="live-section" style="margin-bottom:48px;" id="liveSection">
+      <div class="live-player">
+        <div class="live-player-bg">
+          <div class="live-badge"><span class="live-dot"></span>Live Now on NS Network</div>
+          <div class="live-player-icon" onclick="alert('Live stream integration coming — connect your HeyGen or RTMP stream URL here.')">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="live-corner"><span class="live-dot"></span>NS Live</div>
+        <div class="live-bar-bottom">
+          <div class="live-bar-title">NS Evening Report — Anchor: Victoria Steele</div>
+          <div class="live-time" id="liveTime"></div>
+        </div>
+      </div>
+      <div>
+        <div class="video-list-header">Recent Segments</div>
+        <div class="video-list" id="videoList"></div>
+      </div>
+    </div>
+
+    <!-- POLITICS + SIDEBAR -->
+    <div class="content-with-sidebar">
+      <div>
+        <div class="section-header">
+          <div class="section-label">Politics</div>
+          <div class="section-line"></div>
+          <span class="section-more" onclick="filterSection('politics')">Politics Hub →</span>
+        </div>
+        <div id="politicsList"></div>
+      </div>
+      <aside class="sidebar">
+        <!-- NS INDEX -->
+        <div class="sidebar-widget">
+          <div class="sidebar-section-header">NS Story Index</div>
+          <div class="ns-index-widget" id="nsIndexWidget"></div>
+        </div>
+        <!-- TRENDING -->
+        <div class="sidebar-widget">
+          <div class="sidebar-section-header">Trending Now</div>
+          <div id="trendingList"></div>
+        </div>
+        <!-- NEWSLETTER -->
+        <div class="sidebar-widget">
+          <div class="newsletter-widget">
+            <div class="newsletter-title">The NS Daily</div>
+            <div class="newsletter-sub">Morning Briefing Newsletter</div>
+            <div class="newsletter-desc">The day's most important stories, delivered to your inbox before 7 AM.</div>
+            <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Your email address">
+            <button class="newsletter-btn" onclick="subscribeNewsletter()">Subscribe Free</button>
+            <div class="newsletter-success" id="newsletterSuccess">✓ You're subscribed!</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </div><!-- /homeView -->
+
+  <!-- SECTION VIEW (filtered) -->
+  <div id="sectionView" style="display:none;">
+    <div class="section-header" id="sectionViewHeader">
+      <div class="section-label" id="sectionViewLabel"></div>
+      <div class="section-line"></div>
+      <span class="section-more" onclick="showHome()">← Back to Home</span>
+    </div>
+    <div class="three-col" id="sectionGrid" style="margin-bottom:40px;"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-marble">
+    <div class="footer-marble-inner">
+      <div>
+        <div class="footer-brand-name">NOT <span>SURE</span></div>
+        <div class="footer-tagline">Reporting in Progress</div>
+        <div class="footer-about">Not Sure is an independent American news network committed to transparency, accuracy, and the ongoing pursuit of truth. We report what we know — and tell you what we don't.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Coverage</div>
+        <ul class="footer-links">
+          <li><a onclick="filterSection('us-news')">U.S. News</a></li>
+          <li><a onclick="filterSection('world')">World</a></li>
+          <li><a onclick="filterSection('politics')">Politics</a></li>
+          <li><a onclick="filterSection('economy')">Economy</a></li>
+          <li><a onclick="filterSection('science')">Science</a></li>
+          <li><a onclick="filterSection('technology')">Technology</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Network</div>
+        <ul class="footer-links">
+          <li><a onclick="filterSection('watch')">Watch Live</a></li>
+          <li><a href="#">Our Anchors</a></li>
+          <li><a href="#">NS Studio</a></li>
+          <li><a href="#">NS App</a></li>
+          <li><a href="#">Newsletter</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About NS</a></li>
+          <li><a href="#">Editorial Standards</a></li>
+          <li><a href="#">Tip Line</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Store</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <div class="footer-copy">© <span id="footerYear"></span> <strong>Not Sure News Network</strong>. All rights reserved.</div>
+      <div class="footer-policy">
+        <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const DATA_URL = 'stories.json'; // swap to your n8n webhook or CMS API later
+
+// ─── STATE ────────────────────────────────────────────────
+let allStories = [];
+let allVideos = [];
+let currentSection = 'all';
+
+// ─── BOOT ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  setDateTime();
+  setInterval(setDateTime, 1000);
+  loadData();
+  initSearch();
+  initNav();
+});
+
+// ─── DATE / TIME ──────────────────────────────────────────
+function setDateTime() {
+  const now = new Date();
+  const dateOpts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', dateOpts);
+  const timeOpts = { hour:'numeric', minute:'2-digit', timeZoneName:'short' };
+  document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-US', timeOpts);
+  document.getElementById('footerYear').textContent = now.getFullYear();
+}
+
+// ─── LOAD DATA ────────────────────────────────────────────
+async function loadData() {
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    allStories = data.stories || [];
+    allVideos = data.videos || [];
+    buildTicker(data.breaking_ticker || []);
+    renderHome();
+  } catch (e) {
+    // Fallback: render with inline sample if stories.json not found
+    console.warn('Could not load stories.json — using inline data');
+    useFallbackData();
+  }
+}
+
+function useFallbackData() {
+  allStories = FALLBACK_STORIES;
+  allVideos = FALLBACK_VIDEOS;
+  buildTicker(FALLBACK_TICKER);
+  renderHome();
+}
+
+// ─── TICKER ───────────────────────────────────────────────
+function buildTicker(items) {
+  const doubled = [...items, ...items];
+  document.getElementById('tickerContent').innerHTML =
+    doubled.map(t => `<span>${t}</span>`).join('');
+}
+
+// ─── RENDER HOME ─────────────────────────────────────────
+function renderHome() {
+  renderHero();
+  renderGrid();
+  renderOpinion();
+  renderVideos();
+  renderPolitics();
+  renderNSIndex();
+  renderTrending();
+}
+
+// ─── HERO ─────────────────────────────────────────────────
+function renderHero() {
+  const hero = allStories.find(s => s.position === 'hero');
+  const sides = allStories.filter(s => s.position === 'side').slice(0, 3);
+  if (!hero) return;
+
+  const heroHTML = `
+    <div class="hero-lead fade-in" onclick="openStory('${hero.id}')">
+      <div class="hero-lead-art">
+        <div class="hero-lead-art-bg" style="background:${hero.image_color};">
+          <svg style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);opacity:.1;width:70%;height:55%;" viewBox="0 0 800 400"><rect x="340" y="100" width="120" height="300" fill="white"/><polygon points="400,40 340,100 460,100" fill="white"/><rect x="350" y="60" width="100" height="50" fill="white"/><circle cx="400" cy="50" r="15" fill="white"/><rect x="200" y="200" width="180" height="200" fill="white"/><rect x="420" y="200" width="180" height="200" fill="white"/><rect x="100" y="280" width="600" height="120" fill="white"/></svg>
+        </div>
+      </div>
+      <div class="hero-lead-overlay">
+        <div>${categoryTag(hero.category)} ${statusBadge(hero.status)}</div>
+        <div class="hero-lead-title">${hero.headline}</div>
+        <div class="hero-lead-deck">${hero.deck}</div>
+        <div class="story-meta">
+          <span class="byline">${hero.author}</span>
+          <span class="sep">|</span>
+          <span>${hero.bureau}</span>
+          <span class="sep">|</span>
+          <span>${timeAgo(hero.timestamp)}</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-side">
+      ${sides.map((s, i) => `
+        <div class="side-story fade-in" style="animation-delay:${(i+1)*0.1}s" onclick="openStory('${s.id}')">
+          <div class="side-story-num">${i + 2}</div>
+          ${categoryTag(s.category)}
+          <div class="side-story-title">${s.headline}</div>
+          <div class="side-story-meta">${timeAgo(s.timestamp)} · ${s.author}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('heroGrid').innerHTML = heroHTML;
+}
+
+// ─── GRID ─────────────────────────────────────────────────
+function renderGrid() {
+  const gridStories = allStories.filter(s => s.position === 'grid').slice(0, 3);
+  document.getElementById('storyGrid').innerHTML = gridStories.map((s, i) => `
+    <div class="story-card fade-in" style="animation-delay:${i * 0.12}s" onclick="openStory('${s.id}')">
+      <div class="story-card-img-wrap">
+        <div class="story-card-art">
+          <div class="story-card-art-bg" style="background:${s.image_color};"></div>
+        </div>
+        <div class="story-card-gold-bar"></div>
+      </div>
+      ${categoryTag(s.category)} ${statusBadge(s.status)}
+      <div style="height:8px;"></div>
+      <div class="story-card-title">${s.headline}</div>
+      <div class="story-card-deck">${s.deck}</div>
+      <div class="story-card-meta">
+        <span class="byline">${s.author}</span>
+        <span class="sep">|</span>
+        <span>${timeAgo(s.timestamp)}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── OPINION ──────────────────────────────────────────────
+function renderOpinion() {
+  const opinions = allStories.filter(s => s.position === 'opinion').slice(0, 4);
+  document.getElementById('opinionGrid').innerHTML = opinions.map(s => `
+    <div class="opinion-card" onclick="openStory('${s.id}')">
+      <div class="opinion-label">${s.category}</div>
+      <div class="opinion-title">${s.headline}</div>
+      <div class="opinion-author">By <strong>${s.author}</strong>, ${s.bureau}</div>
+    </div>
+  `).join('');
+}
+
+// ─── VIDEOS ───────────────────────────────────────────────
+function renderVideos() {
+  document.getElementById('videoList').innerHTML = allVideos.map((v, i) => `
+    <div class="video-item ${i === 0 ? 'active' : ''}" onclick="selectVideo(this, '${v.id}')">
+      <div class="video-thumb">
+        <div style="background:${getVideoThumbColor(i)};width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+          <div class="video-thumb-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+      </div>
+      <div class="video-item-title">${v.title}</div>
+      <div class="video-item-time">${v.duration}</div>
+    </div>
+  `).join('');
+}
+function getVideoThumbColor(i) {
+  const colors = ['linear-gradient(135deg,#1a2d5a,#0d1b3e)','linear-gradient(135deg,#1a3020,#0d1810)','linear-gradient(135deg,#2d1020,#180810)','linear-gradient(135deg,#1a1a40,#0d0d20)','linear-gradient(135deg,#0d2030,#081015)'];
+  return colors[i % colors.length];
+}
+function selectVideo(el, id) {
+  document.querySelectorAll('.video-item').forEach(v => v.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ─── POLITICS LIST ────────────────────────────────────────
+function renderPolitics() {
+  const pol = allStories.filter(s => s.section === 'politics' && s.position === 'list').slice(0, 3);
+  document.getElementById('politicsList').innerHTML = pol.map(s => `
+    <div class="story-list-item" onclick="openStory('${s.id}')">
+      <div class="story-list-art">
+        <div class="story-list-art-bg" style="background:${s.image_color};"></div>
+      </div>
+      <div>
+        ${categoryTag(s.category)} ${statusBadge(s.status)}
+        <div style="height:6px;"></div>
+        <div class="story-list-title">${s.headline}</div>
+        <div class="story-list-deck">${s.deck}</div>
+        <div class="story-list-meta">
+          <span class="byline">${s.author}</span>
+          <span>|</span>
+          <span>${timeAgo(s.timestamp)}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── NS INDEX ─────────────────────────────────────────────
+function renderNSIndex() {
+  const top = allStories.find(s => s.position === 'hero');
+  if (!top || !top.ns_index) return;
+  const idx = top.ns_index;
+  const dims = ['impact','reach','velocity','resonance','urgency'];
+  document.getElementById('nsIndexWidget').innerHTML = `
+    <div class="ns-index-label">Top Story Score</div>
+    <div class="ns-index-story">${top.headline.substring(0, 48)}...</div>
+    <div class="ns-index-score">${idx.total}<sup>/100</sup></div>
+    <div class="gold-divider"></div>
+    <div class="ns-bars">
+      ${dims.map(d => `
+        <div class="ns-bar-row">
+          <div class="ns-bar-label">${d}</div>
+          <div class="ns-bar-track"><div class="ns-bar-fill" data-val="${idx[d]}"></div></div>
+          <div class="ns-bar-val">${idx[d]}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  // animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.ns-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.val + '%';
+    });
+  }, 300);
+}
+
+// ─── TRENDING ─────────────────────────────────────────────
+function renderTrending() {
+  const sorted = [...allStories].sort((a, b) => b.views - a.views).slice(0, 5);
+  document.getElementById('trendingList').innerHTML = sorted.map((s, i) => `
+    <div class="trending-item" onclick="openStory('${s.id}')">
+      <div class="trending-num">${i + 1}</div>
+      <div class="trending-title">${s.headline}</div>
+    </div>
+  `).join('');
+}
+
+// ─── SECTION FILTER ───────────────────────────────────────
+function filterSection(section) {
+  currentSection = section;
+  updateNavActive(section);
+
+  if (section === 'all') { showHome(); return; }
+  if (section === 'watch') { showHome(); setTimeout(() => document.getElementById('liveSection').scrollIntoView({behavior:'smooth'}), 100); return; }
+
+  const filtered = allStories.filter(s => s.section === section);
+  const label = navLabelFor(section);
+
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('sectionView').style.display = 'block';
+  document.getElementById('sectionViewLabel').textContent = label;
+
+  if (filtered.length === 0) {
+    document.getElementById('sectionGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;font-family:\'Oswald\',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);">No stories in this section yet.</div>';
+    return;
+  }
+
+  document.getElementById('sectionGrid').innerHTML = filtered.map((s, i) => `
+    <div class="story-card fade-in" style="animation-delay:${i * 0.08}s" onclick="openStory('${s.id}')">
+      <div class="story-card-img-wrap">
+        <div class="story-card-art">
+          <div class="story-card-art-bg" style="background:${s.image_color};"></div>
+        </div>
+        <div class="story-card-gold-bar"></div>
+      </div>
+      ${categoryTag(s.category)} ${statusBadge(s.status)}
+      <div style="height:8px;"></div>
+      <div class="story-card-title">${s.headline}</div>
+      <div class="story-card-deck">${s.deck}</div>
+      <div class="story-card-meta">
+        <span class="byline">${s.author}</span>
+        <span class="sep">|</span>
+        <span>${timeAgo(s.timestamp)}</span>
+      </div>
+    </div>
+  `).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showHome() {
+  document.getElementById('homeView').style.display = 'block';
+  document.getElementById('sectionView').style.display = 'none';
+  updateNavActive('all');
+  currentSection = 'all';
+}
+
+// ─── NAV ──────────────────────────────────────────────────
+function initNav() {
+  document.querySelectorAll('#navLinks li').forEach(li => {
+    li.querySelector('a').addEventListener('click', () => {
+      filterSection(li.dataset.section);
+    });
+  });
+}
+function updateNavActive(section) {
+  document.querySelectorAll('#navLinks li').forEach(li => {
+    li.classList.toggle('active', li.dataset.section === section || (section === 'all' && li.dataset.section === 'all'));
+  });
+}
+function navLabelFor(s) {
+  const map = { 'us-news':'U.S. News', world:'World', politics:'Politics', economy:'Economy', science:'Science', technology:'Technology', opinion:'Opinion & Analysis' };
+  return map[s] || s;
+}
+
+// ─── SEARCH ───────────────────────────────────────────────
+function initSearch() {
+  const input = document.getElementById('navSearch');
+  const clearBtn = document.getElementById('searchClear');
+  const overlay = document.getElementById('searchOverlay');
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    clearBtn.classList.toggle('visible', q.length > 0);
+    if (q.length >= 2) {
+      showSearchResults(q);
+    } else if (q.length === 0) {
+      overlay.classList.remove('active');
+    }
+  });
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { clearSearch(); }
+  });
+
+  clearBtn.addEventListener('click', clearSearch);
+  document.getElementById('searchClose').addEventListener('click', clearSearch);
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) clearSearch();
+  });
+}
+
+function showSearchResults(query) {
+  const q = query.toLowerCase();
+  const results = allStories.filter(s =>
+    s.headline.toLowerCase().includes(q) ||
+    s.deck.toLowerCase().includes(q) ||
+    s.author.toLowerCase().includes(q) ||
+    s.category.toLowerCase().includes(q) ||
+    s.section.toLowerCase().includes(q)
+  );
+
+  const overlay = document.getElementById('searchOverlay');
+  const header = document.getElementById('searchResultsHeader');
+  const grid = document.getElementById('searchResultsGrid');
+
+  overlay.classList.add('active');
+  header.textContent = results.length > 0
+    ? `${results.length} result${results.length !== 1 ? 's' : ''} for "${query}"`
+    : `No results for "${query}"`;
+
+  if (results.length === 0) {
+    grid.innerHTML = '<div class="search-no-results">No stories match your search.</div>';
+    return;
+  }
+
+  grid.innerHTML = results.map(s => `
+    <div class="search-result-item" onclick="openStory('${s.id}'); clearSearch();">
+      <div class="search-result-cat">${s.category} · ${s.section.toUpperCase()}</div>
+      <div class="search-result-title">${highlight(s.headline, query)}</div>
+      <div class="search-result-deck">${s.deck}</div>
+      <div class="search-result-meta">${s.author} · ${timeAgo(s.timestamp)} · ${s.views.toLocaleString()} views</div>
+    </div>
+  `).join('');
+}
+
+function highlight(text, query) {
+  const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re, '<mark style="background:rgba(201,168,76,.35);color:white;padding:0 2px;">$1</mark>');
+}
+
+function clearSearch() {
+  document.getElementById('navSearch').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  document.getElementById('searchOverlay').classList.remove('active');
+}
+
+// ─── STORY OPEN (placeholder for article page) ────────────
+function openStory(id) {
+  const story = allStories.find(s => s.id === id);
+  if (!story) return;
+  // In production: navigate to /story/{id} or open a modal
+  // For now, show a simple alert with the story details
+  alert(`📰 "${story.headline}"\n\nBy ${story.author} · ${story.bureau}\n\nNS Index Score: ${story.ns_index.total}/100\nStatus: ${story.status.toUpperCase()}\n\n→ Full article page coming next.`);
+}
+
+// ─── NEWSLETTER ───────────────────────────────────────────
+function subscribeNewsletter() {
+  const email = document.getElementById('newsletterEmail').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('newsletterEmail').style.borderColor = 'var(--crimson)';
+    return;
+  }
+  // In production: POST to your email provider API here
+  document.getElementById('newsletterEmail').style.display = 'none';
+  document.querySelector('.newsletter-btn').style.display = 'none';
+  document.getElementById('newsletterSuccess').style.display = 'block';
+  console.log('Newsletter signup:', email);
+}
+
+// ─── HELPERS ──────────────────────────────────────────────
+function timeAgo(ts) {
+  const diff = Math.floor((Date.now() - new Date(ts)) / 60000);
+  if (diff < 1) return 'Just now';
+  if (diff < 60) return `${diff} min ago`;
+  const hrs = Math.floor(diff / 60);
+  if (hrs < 24) return `${hrs} hr${hrs > 1 ? 's' : ''} ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
+}
+
+function categoryTag(cat) {
+  const slug = cat.toLowerCase().replace(/[^a-z]/g, '-');
+  return `<span class="story-category cat-${slug}">${cat}</span>`;
+}
+
+function statusBadge(status) {
+  return `<span class="status-badge status-${status}">${status}</span>`;
+}
+
+// ─── FALLBACK DATA (if stories.json not found) ────────────
+const FALLBACK_TICKER = ["Senate debates emergency infrastructure bill","Federal Reserve holds rates steady","Administration announces new Pacific Rim trade agreement","Supreme Court to hear digital privacy case"];
+const FALLBACK_VIDEOS = [
+  { id:"v001", title:"Debt Ceiling: What Happens if Congress Fails?", duration:"12:04" },
+  { id:"v002", title:"Morning Markets: Jobs Report Deep Dive", duration:"8:31" },
+  { id:"v003", title:"G7 Emergency Session: Full Highlights", duration:"22:15" }
+];
+const FALLBACK_STORIES = [
+  { id:"001", headline:"Congress Reaches Critical Juncture on National Debt Ceiling", deck:"Negotiations have entered their final phase with Treasury officials warning of potential consequences.", category:"Breaking", section:"politics", author:"Victoria Steele", bureau:"NS Washington Bureau", timestamp: new Date(Date.now()-900000).toISOString(), status:"rising", ns_index:{total:84,impact:91,reach:87,velocity:78,resonance:80,urgency:82}, views:98200, position:"hero", image_color:"linear-gradient(160deg,#0d1b3e 0%,#1a3060 40%,#0a0e1a 100%)" },
+  { id:"002", headline:"G7 Leaders Convene Emergency Session Over Supply Chain Disruptions", deck:"Finance ministers from the world's largest economies met to address mounting pressures on global logistics.", category:"World", section:"world", author:"Marcus Reid", bureau:"NS International Desk", timestamp:new Date(Date.now()-2000000).toISOString(), status:"rising", ns_index:{total:76,impact:80,reach:74,velocity:70,resonance:72,urgency:78}, views:74300, position:"side", image_color:"linear-gradient(135deg,#1a1a3e,#0d0d20)" },
+  { id:"003", headline:"Jobs Report Exceeds Expectations With 287,000 New Positions Added", deck:"The Bureau of Labor Statistics report surprised analysts who had forecast a gain of 210,000 jobs.", category:"Economy", section:"economy", author:"Campbell Cantore", bureau:"NS Business Desk", timestamp:new Date(Date.now()-4700000).toISOString(), status:"turning", ns_index:{total:71,impact:75,reach:82,velocity:65,resonance:70,urgency:60}, views:61800, position:"side", image_color:"linear-gradient(135deg,#1a3020,#0d1a10)" },
+  { id:"004", headline:"Federal AI Oversight Board Issues First Binding Compliance Guidelines", deck:"The new framework requires companies deploying AI in critical infrastructure to certify safety protocols annually.", category:"Technology", section:"technology", author:"Skye Navarro", bureau:"NS Technology Desk", timestamp:new Date(Date.now()-7200000).toISOString(), status:"turning", ns_index:{total:68,impact:70,reach:65,velocity:72,resonance:68,urgency:65}, views:55400, position:"side", image_color:"linear-gradient(135deg,#101a2a,#080d15)" },
+  { id:"005", headline:"Border Policy Overhaul Moves Through Senate After Months of Deadlock", deck:"A bipartisan group of senators reached a tentative framework that would reshape enforcement priorities.", category:"U.S. News", section:"us-news", author:"Dante", bureau:"NS Washington Bureau", timestamp:new Date(Date.now()-10800000).toISOString(), status:"turning", ns_index:{total:74,impact:78,reach:71,velocity:69,resonance:75,urgency:74}, views:48900, position:"grid", image_color:"linear-gradient(135deg,#1a3060,#0d1b3e)" },
+  { id:"006", headline:"Eastern European Alliance Votes to Expand Defense Perimeter", deck:"The bloc's unanimous vote signals a strategic pivot that will reshape the security architecture of the continent.", category:"World", section:"world", author:"Mercedes Jenkins", bureau:"NS Foreign Desk", timestamp:new Date(Date.now()-14400000).toISOString(), status:"rising", ns_index:{total:79,impact:82,reach:77,velocity:80,resonance:76,urgency:81}, views:44200, position:"grid", image_color:"linear-gradient(135deg,#3d0010,#1a0008)" },
+  { id:"007", headline:"NASA Confirms Moon Ice Deposits Exceed Prior Estimates by Threefold", deck:"New analysis from the Lunar Reconnaissance Orbiter reveals deposits accelerating Artemis mission planning.", category:"Science", section:"science", author:"Skye Navarro", bureau:"NS Science Desk", timestamp:new Date(Date.now()-19000000).toISOString(), status:"settled", ns_index:{total:62,impact:65,reach:70,velocity:55,resonance:68,urgency:50}, views:38700, position:"grid", image_color:"linear-gradient(135deg,#0d2a1a,#081508)" },
+  { id:"008", headline:"Bipartisan Coalition Faces New Challenge From Party Leadership", deck:"The agreement drew immediate pushback from caucus leaders on both sides.", category:"Senate", section:"politics", author:"Campbell Cantore", bureau:"NS Washington Bureau", timestamp:new Date(Date.now()-22000000).toISOString(), status:"rising", ns_index:{total:72,impact:74,reach:68,velocity:76,resonance:70,urgency:75}, views:35100, position:"list", image_color:"linear-gradient(135deg,#1a3060,#0d1b3e)" },
+  { id:"009", headline:"Executive Order on Contracting Sparks Legal Challenge", deck:"Three major trade associations filed a joint federal lawsuit within hours of the order being signed.", category:"White House", section:"politics", author:"Dante", bureau:"NS Washington Bureau", timestamp:new Date(Date.now()-25000000).toISOString(), status:"turning", ns_index:{total:67,impact:68,reach:65,velocity:70,resonance:66,urgency:68}, views:29800, position:"list", image_color:"linear-gradient(135deg,#2d1030,#120818)" },
+  { id:"010", headline:"Speaker Announces Select Committee on Government Efficiency Audit", deck:"The committee will have subpoena power and a mandate to report findings within 90 days.", category:"House", section:"politics", author:"Marcus Reid", bureau:"NS Washington Bureau", timestamp:new Date(Date.now()-29000000).toISOString(), status:"settled", ns_index:{total:58,impact:60,reach:55,velocity:52,resonance:62,urgency:58}, views:22400, position:"list", image_color:"linear-gradient(135deg,#10202a,#081015)" },
+  { id:"011", headline:"Why the Debt Ceiling Fight Is About More Than Numbers", deck:"The annual standoff has become a proxy war for deeper disagreements about the size of government.", category:"Editorial", section:"opinion", author:"Victoria Steele", bureau:"NS Chief Anchor", timestamp:new Date(Date.now()-32000000).toISOString(), status:"rising", ns_index:{total:70,impact:72,reach:68,velocity:65,resonance:78,urgency:66}, views:31200, position:"opinion", image_color:"linear-gradient(135deg,#1a2744,#0d1422)" },
+  { id:"012", headline:"The Hidden Costs of America's Fractured Supply Chain", deck:"Three years after pandemic-era disruptions, the systemic vulnerabilities have not been fully addressed.", category:"Analysis", section:"opinion", author:"Marcus Reid", bureau:"Economics Editor", timestamp:new Date(Date.now()-35000000).toISOString(), status:"settled", ns_index:{total:64,impact:66,reach:62,velocity:58,resonance:72,urgency:60}, views:27600, position:"opinion", image_color:"linear-gradient(135deg,#1a2030,#0d1018)" },
+  { id:"013", headline:"NATO's Quiet Expansion Strategy and What It Means for U.S. Policy", deck:"Behind the headlines, alliance planners have been executing a long-term repositioning of forces.", category:"World View", section:"opinion", author:"Mercedes Jenkins", bureau:"Foreign Correspondent", timestamp:new Date(Date.now()-38000000).toISOString(), status:"turning", ns_index:{total:66,impact:68,reach:64,velocity:60,resonance:70,urgency:65}, views:24100, position:"opinion", image_color:"linear-gradient(135deg,#1a1a30,#0d0d18)" },
+  { id:"014", headline:"AI Regulation: Washington Has a Framework — Is It Enough?", deck:"The new guidelines establish a baseline, but critics argue they leave too many loopholes.", category:"Tech & Society", section:"opinion", author:"Skye Navarro", bureau:"Technology Editor", timestamp:new Date(Date.now()-41000000).toISOString(), status:"turning", ns_index:{total:63,impact:64,reach:60,velocity:65,resonance:68,urgency:62}, views:20900, position:"opinion", image_color:"linear-gradient(135deg,#101a2a,#080d15)" }
+];
+</script>
+</body>
+</html>
