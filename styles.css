@@ -265,3 +265,12 @@ section.block{padding:56px 0}
 .chip-confirmed{background:var(--confirmed)}
 .chip-developing{background:var(--developing); color:var(--gulf)}
 .chip-unverified{background:var(--unverified)}
+
+/* Tri-state wire — second edition (2026-11-08): state tags on wire groups, new-state desk accents */
+.state-tag{display:inline-block; padding:2px 9px; margin-right:10px; border-radius:999px; font-size:.7rem; font-weight:800; letter-spacing:.14em; color:#fff; vertical-align:2px; text-transform:none}
+.st-fl{background:var(--wave)}
+.st-ga{background:var(--emerald)}
+.st-al{background:var(--aqua); color:var(--gulf)}
+.desk-ga{box-shadow:inset 0 3px 0 var(--emerald)}
+.desk-al{box-shadow:inset 0 3px 0 var(--wave)}
+.wire-group{scroll-margin-top:96px}
