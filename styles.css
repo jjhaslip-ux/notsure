@@ -271,6 +271,61 @@ section.block{padding:56px 0}
 .st-fl{background:var(--wave)}
 .st-ga{background:var(--emerald)}
 .st-al{background:var(--aqua); color:var(--gulf)}
-.desk-ga{box-shadow:inset 0 3px 0 var(--emerald)}
-.desk-al{box-shadow:inset 0 3px 0 var(--wave)}
 .wire-group{scroll-margin-top:96px}
+
+/* ===== Per-desk & per-section shades — blue-green family (Jeff's order, 2026-11-10) =====
+   Weather runs blue, government runs true teal, home ground is the lagoon brand tint,
+   radio is the quiet grey-teal, and The Unknown takes the darkest water. */
+:root{
+  --sh-wx-fl:#38a3c8;
+  --sh-wx-gaal:#6fbcc9;
+  --sh-hurricane:#177e9e;
+  --sh-home:#1fb6ac;
+  --sh-gov-fl:#12a594;
+  --sh-gov-ga:#37b08c;
+  --sh-gov-al:#58b09a;
+  --sh-radio:#7fa8a0;
+  --sh-desk-statehouse:#159a86;
+  --sh-desk-emerald:#0ea47a;
+  --sh-desk-space:#3e8fb8;
+  --sh-desk-georgia:#2a9d8f;
+  --sh-desk-alabama:#4fb0a5;
+  --sh-desk-unknown:#14666e;
+  --sh-wire:#22a8b8;
+  --sh-desks:#1f8aad;
+  --sh-files:#57b8a2;
+}
+/* wire groups: heading + left rule in the group's own shade */
+.wire-group{border-left:4px solid var(--aqua); padding-left:10px}
+.wg-wx-fl{color:var(--sh-wx-fl); border-left-color:var(--sh-wx-fl)}
+.wg-wx-gaal{color:var(--sh-wx-gaal); border-left-color:var(--sh-wx-gaal)}
+.wg-hurricane{color:var(--sh-hurricane); border-left-color:var(--sh-hurricane)}
+.wg-home{color:var(--sh-home); border-left-color:var(--sh-home)}
+.wg-gov-fl{color:var(--sh-gov-fl); border-left-color:var(--sh-gov-fl)}
+.wg-gov-ga{color:var(--sh-gov-ga); border-left-color:var(--sh-gov-ga)}
+.wg-gov-al{color:var(--sh-gov-al); border-left-color:var(--sh-gov-al)}
+.wg-radio{color:var(--sh-radio); border-left-color:var(--sh-radio)}
+.wire-group .wire-count{color:var(--muted)}
+/* desks: top rule + status pill in the desk's own shade */
+.desk-statehouse{border-top-color:var(--sh-desk-statehouse)}
+.desk-statehouse .status{color:var(--sh-desk-statehouse); border-color:var(--sh-desk-statehouse)}
+.desk-emerald{border-top-color:var(--sh-desk-emerald)}
+.desk-emerald .status{color:var(--sh-desk-emerald); border-color:var(--sh-desk-emerald)}
+.desk-space{border-top-color:var(--sh-desk-space)}
+.desk-space .status{color:var(--sh-desk-space); border-color:var(--sh-desk-space)}
+.desk-georgia{border-top-color:var(--sh-desk-georgia)}
+.desk-georgia .status{color:var(--sh-desk-georgia); border-color:var(--sh-desk-georgia)}
+.desk-alabama{border-top-color:var(--sh-desk-alabama)}
+.desk-alabama .status{color:var(--sh-desk-alabama); border-color:var(--sh-desk-alabama)}
+.desk-unknown{border-top-color:var(--sh-desk-unknown)}
+.desk-unknown .status{color:var(--sh-desk-unknown); border-color:var(--sh-desk-unknown)}
+/* page sections: rule + heading in the section's own shade */
+.sh-wire{border-bottom-color:var(--sh-wire)}
+.sh-wire h2{color:var(--sh-wire)}
+.sh-desks{border-bottom-color:var(--sh-desks)}
+.sh-desks h2{color:var(--sh-desks)}
+.sh-files{border-bottom-color:var(--sh-files)}
+.sh-files h2{color:var(--sh-files)}
+/* the Files family (homepage cards, shelf, dossier heroes) carries the files shade */
+.card .file-no{color:var(--sh-files)}
+.dossier-hero .file-no{color:var(--sh-files)}
