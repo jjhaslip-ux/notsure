@@ -345,3 +345,22 @@ a.desk:hover{background:var(--lift-2)}
 .dp-alabama .dossier-hero .file-no{color:var(--sh-desk-alabama)}
 .dp-unknown .dossier-hero{border-bottom:3px solid var(--sh-desk-unknown)}
 .dp-unknown .dossier-hero .file-no{color:var(--sh-desk-unknown)}
+
+/* ===== Gold accents (site-wide) ===== */
+:root{--gold:#c9a227; --gold-2:#e8c766}
+::selection{background:var(--gold); color:#06222b}
+.site-header{border-bottom:2px solid var(--gold)}
+.wordmark small{color:var(--gold-2)}
+.main-nav a:hover{color:var(--gold-2)}
+.main-nav a[aria-current="page"]{box-shadow:inset 0 -2px 0 var(--gold)}
+.hero .eyebrow{color:var(--gold-2)}
+.story h3 a:hover, .file h3 a:hover{text-decoration:underline; text-decoration-color:var(--gold); text-underline-offset:3px}
+.file .file-no, .dossier-hero .file-no{color:var(--gold-2)}
+.dp-florida .dossier-hero .file-no, .dp-emerald .dossier-hero .file-no, .dp-space .dossier-hero .file-no, .dp-georgia .dossier-hero .file-no, .dp-alabama .dossier-hero .file-no, .dp-unknown .dossier-hero .file-no{color:var(--gold-2)}
+.site-footer{border-top:2px solid var(--gold)}
+.site-footer .agape{color:var(--gold-2)}
+.backlink:hover{color:var(--gold-2)}
+.dossier-body a:hover, .about-body a:hover{color:var(--gold-2)}
+.tool button:hover{border-color:var(--gold); color:var(--gold-2)}
+.tool input:focus{outline:2px solid var(--gold); outline-offset:1px}
+.correction .when{color:var(--gold-2)}
