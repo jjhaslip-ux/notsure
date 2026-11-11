@@ -329,3 +329,19 @@ section.block{padding:56px 0}
 /* the Files family (homepage cards, shelf, dossier heroes) carries the files shade */
 .card .file-no{color:var(--sh-files)}
 .dossier-hero .file-no{color:var(--sh-files)}
+
+/* ===== Desk pages ===== */
+a.desk{display:block;text-decoration:none;color:inherit;cursor:pointer}
+a.desk:hover{background:var(--lift-2)}
+.dp-florida .dossier-hero{border-bottom:3px solid var(--sh-desk-statehouse)}
+.dp-florida .dossier-hero .file-no{color:var(--sh-desk-statehouse)}
+.dp-emerald .dossier-hero{border-bottom:3px solid var(--sh-desk-emerald)}
+.dp-emerald .dossier-hero .file-no{color:var(--sh-desk-emerald)}
+.dp-space .dossier-hero{border-bottom:3px solid var(--sh-desk-space)}
+.dp-space .dossier-hero .file-no{color:var(--sh-desk-space)}
+.dp-georgia .dossier-hero{border-bottom:3px solid var(--sh-desk-georgia)}
+.dp-georgia .dossier-hero .file-no{color:var(--sh-desk-georgia)}
+.dp-alabama .dossier-hero{border-bottom:3px solid var(--sh-desk-alabama)}
+.dp-alabama .dossier-hero .file-no{color:var(--sh-desk-alabama)}
+.dp-unknown .dossier-hero{border-bottom:3px solid var(--sh-desk-unknown)}
+.dp-unknown .dossier-hero .file-no{color:var(--sh-desk-unknown)}
