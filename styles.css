@@ -364,3 +364,8 @@ a.desk:hover{background:var(--lift-2)}
 .tool button:hover{border-color:var(--gold); color:var(--gold-2)}
 .tool input:focus{outline:2px solid var(--gold); outline-offset:1px}
 .correction .when{color:var(--gold-2)}
+
+/* ===== Most Wanted sub-desk ===== */
+.file img.mw-poster{height:330px;object-fit:contain;background:#0a141f;padding:8px}
+.mw-nophoto{height:330px;display:flex;align-items:center;justify-content:center;background:#0a141f;color:var(--muted);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:12px}
+.mw-status{font-weight:700;color:var(--gold-2)}
