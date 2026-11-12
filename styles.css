@@ -369,3 +369,6 @@ a.desk:hover{background:var(--lift-2)}
 .file img.mw-poster{height:330px;object-fit:contain;background:#0a141f;padding:8px}
 .mw-nophoto{height:330px;display:flex;align-items:center;justify-content:center;background:#0a141f;color:var(--muted);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:12px}
 .mw-status{font-weight:700;color:var(--gold-2)}
+
+/* Tagline under the wordmark (Jeff, 2026-11-12) */
+.wordmark small.tagline{color:var(--aqua); letter-spacing:.24em; font-size:.58rem; margin-top:2px}
