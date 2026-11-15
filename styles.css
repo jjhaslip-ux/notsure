@@ -291,6 +291,7 @@ section.block{padding:56px 0}
   --sh-desk-georgia:#2a9d8f;
   --sh-desk-alabama:#4fb0a5;
   --sh-desk-unknown:#14666e;
+  --sh-desk-grand:#1b9aaa;
   --sh-wire:#22a8b8;
   --sh-desks:#1f8aad;
   --sh-files:#57b8a2;
@@ -319,6 +320,8 @@ section.block{padding:56px 0}
 .desk-alabama .status{color:var(--sh-desk-alabama); border-color:var(--sh-desk-alabama)}
 .desk-unknown{border-top-color:var(--sh-desk-unknown)}
 .desk-unknown .status{color:var(--sh-desk-unknown); border-color:var(--sh-desk-unknown)}
+.desk-grand{border-top-color:var(--sh-desk-grand)}
+.desk-grand .status{color:var(--sh-desk-grand); border-color:var(--sh-desk-grand)}
 /* page sections: rule + heading in the section's own shade */
 .sh-wire{border-bottom-color:var(--sh-wire)}
 .sh-wire h2{color:var(--sh-wire)}
@@ -345,6 +348,8 @@ a.desk:hover{background:var(--lift-2)}
 .dp-alabama .dossier-hero .file-no{color:var(--sh-desk-alabama)}
 .dp-unknown .dossier-hero{border-bottom:3px solid var(--sh-desk-unknown)}
 .dp-unknown .dossier-hero .file-no{color:var(--sh-desk-unknown)}
+.dp-grand .dossier-hero{border-bottom:3px solid var(--sh-desk-grand)}
+.dp-grand .dossier-hero .file-no{color:var(--sh-desk-grand)}
 
 /* ===== Gold accents (site-wide) ===== */
 :root{--gold:#c9a227; --gold-2:#e8c766}
@@ -356,7 +361,7 @@ a.desk:hover{background:var(--lift-2)}
 .hero .eyebrow{color:var(--gold-2)}
 .story h3 a:hover, .file h3 a:hover{text-decoration:underline; text-decoration-color:var(--gold); text-underline-offset:3px}
 .file .file-no, .dossier-hero .file-no{color:var(--gold-2)}
-.dp-florida .dossier-hero .file-no, .dp-emerald .dossier-hero .file-no, .dp-space .dossier-hero .file-no, .dp-georgia .dossier-hero .file-no, .dp-alabama .dossier-hero .file-no, .dp-unknown .dossier-hero .file-no{color:var(--gold-2)}
+.dp-florida .dossier-hero .file-no, .dp-emerald .dossier-hero .file-no, .dp-space .dossier-hero .file-no, .dp-georgia .dossier-hero .file-no, .dp-alabama .dossier-hero .file-no, .dp-unknown .dossier-hero .file-no, .dp-grand .dossier-hero .file-no{color:var(--gold-2)}
 .site-footer{border-top:2px solid var(--gold)}
 .site-footer .agape{color:var(--gold-2)}
 .backlink:hover{color:var(--gold-2)}
