@@ -25,7 +25,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth; background:#0a0c0e}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *{transition:none !important; animation:none !important}
@@ -37,7 +37,10 @@ body{
   font-size:1.125rem;
   line-height:1.6;
   color:var(--foam);
-  background:var(--gulf);
+  /* Shark skin black (Jeff, 2026-11-25): seamless fine-grain tile, no visible pattern */
+  background-color:#0a0c0e;
+  background-image:url("assets/sharkskin.jpg");
+  background-repeat:repeat;
 }
 
 h1,h2,h3{font-family:"Inter","Helvetica Neue",Arial,sans-serif; line-height:1.15; margin:0; color:var(--foam)}
@@ -57,7 +60,9 @@ a:hover{color:var(--foam)}
 /* ---------- header ---------- */
 .site-header{
   position:sticky; top:0; z-index:50;
-  background:var(--gulf);
+  background-color:#0a0c0e;
+  background-image:url("assets/sharkskin.jpg");
+  background-repeat:repeat;
   border-bottom:3px solid var(--emerald);
 }
 .site-header .bar{
@@ -214,7 +219,7 @@ section.block{padding:56px 0}
 }
 
 /* ---------- footer ---------- */
-.site-footer{background:var(--gulf); color:var(--foam); margin-top:56px; border-top:3px solid var(--emerald)}
+.site-footer{background-color:#0a0c0e; background-image:url("assets/sharkskin.jpg"); background-repeat:repeat; color:var(--foam); margin-top:56px; border-top:3px solid var(--emerald)}
 .site-footer .wrap{
   display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap;
   padding-top:28px; padding-bottom:28px;
