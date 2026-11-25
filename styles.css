@@ -3,29 +3,32 @@
    Palette sampled from Jeff's badge (brand-sheet.md); kit eyeball values noted there:
    Deep Gulf #052A33 · Navy Lift #0A3B4A · Gulf Teal #047D81 · Wave Aqua #2985A2
    Seafoam #7EC8CB · Foam White #FFFFFF · Coin Silver #C7CDD1
-   Status (badges only): Confirmed #2E9E6B · Developing #E0A526 · Unverified #D9654F */
+   Status (badges only): Confirmed #2E9E6B · Developing #E0A526 · Unverified #D9654F
+   RECOLOR 2026-11-25 (Jeff's direction): the whole site now runs Neon Navy Blue +
+   Yoda lightsaber neon green, with the gold accents turned to yellow neon.
+   Variables below carry the new values; the badge artwork itself is unchanged. */
 
 :root{
-  --gulf:#052a33;
-  --lift:#0a3b4a;
-  --lift-2:#0e4356;
-  --emerald:#047d81;
-  --wave:#2985a2;
-  --aqua:#7ec8cb;
+  --gulf:#050b36;
+  --lift:#0a1466;
+  --lift-2:#101d85;
+  --emerald:#1ed63f;
+  --wave:#25d93b;
+  --aqua:#86ff70;
   --foam:#ffffff;
-  --seamist:#eaf4f5;
-  --silver:#c7cdd1;
-  --line:rgba(199,205,209,.16);
-  --muted:#a9c8cd;
-  --confirmed:#2e9e6b;
-  --developing:#e0a526;
-  --unverified:#d9654f;
+  --seamist:#edf1ff;
+  --silver:#c9d4ff;
+  --line:rgba(201,212,255,.16);
+  --muted:#a9b8f0;
+  --confirmed:#0b8a34;
+  --developing:#ffe600;
+  --unverified:#ff4d3d;
   --max:1180px;
   --radius:12px;
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth; background:#0a0c0e}
+html{scroll-behavior:smooth; background:#04082b}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *{transition:none !important; animation:none !important}
@@ -37,9 +40,9 @@ body{
   font-size:1.125rem;
   line-height:1.6;
   color:var(--foam);
-  /* Shark skin black (Jeff, 2026-11-25): seamless fine-grain tile, no visible pattern */
-  background-color:#0a0c0e;
-  background-image:url("assets/sharkskin.jpg");
+  /* Neon navy recolor (Jeff, 2026-11-25): the shark-grain tile re-based in navy — seamless fine grain, no visible pattern */
+  background-color:#04082b;
+  background-image:url("assets/neonnavy.jpg");
   background-repeat:repeat;
 }
 
@@ -51,17 +54,17 @@ a:hover{color:var(--foam)}
 
 .skip{
   position:absolute; left:-999px; top:0; z-index:60;
-  background:var(--emerald); color:var(--foam); padding:.6rem 1rem; font-weight:700;
+  background:var(--emerald); color:#03130a; padding:.6rem 1rem; font-weight:700;
 }
-.skip:focus{left:0; color:var(--foam)}
+.skip:focus{left:0; color:#03130a}
 
 .wrap{max-width:var(--max); margin:0 auto; padding:0 20px}
 
 /* ---------- header ---------- */
 .site-header{
   position:sticky; top:0; z-index:50;
-  background-color:#0a0c0e;
-  background-image:url("assets/sharkskin.jpg");
+  background-color:#04082b;
+  background-image:url("assets/neonnavy.jpg");
   background-repeat:repeat;
   border-bottom:3px solid var(--emerald);
 }
@@ -219,7 +222,7 @@ section.block{padding:56px 0}
 }
 
 /* ---------- footer ---------- */
-.site-footer{background-color:#0a0c0e; background-image:url("assets/sharkskin.jpg"); background-repeat:repeat; color:var(--foam); margin-top:56px; border-top:3px solid var(--emerald)}
+.site-footer{background-color:#04082b; background-image:url("assets/neonnavy.jpg"); background-repeat:repeat; color:var(--foam); margin-top:56px; border-top:3px solid var(--emerald)}
 .site-footer .wrap{
   display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap;
   padding-top:28px; padding-bottom:28px;
@@ -283,24 +286,24 @@ section.block{padding:56px 0}
    Weather runs blue, government runs true teal, home ground is the lagoon brand tint,
    radio is the quiet grey-teal, and The Unknown takes the darkest water. */
 :root{
-  --sh-wx-fl:#38a3c8;
-  --sh-wx-gaal:#6fbcc9;
-  --sh-hurricane:#177e9e;
-  --sh-home:#1fb6ac;
-  --sh-gov-fl:#12a594;
-  --sh-gov-ga:#37b08c;
-  --sh-gov-al:#58b09a;
-  --sh-radio:#7fa8a0;
-  --sh-desk-statehouse:#159a86;
-  --sh-desk-emerald:#0ea47a;
-  --sh-desk-space:#3e8fb8;
-  --sh-desk-georgia:#2a9d8f;
-  --sh-desk-alabama:#4fb0a5;
-  --sh-desk-unknown:#14666e;
-  --sh-desk-grand:#1b9aaa;
-  --sh-wire:#22a8b8;
-  --sh-desks:#1f8aad;
-  --sh-files:#57b8a2;
+  --sh-wx-fl:#2e6bff;
+  --sh-wx-gaal:#5e8bff;
+  --sh-hurricane:#1b4fd8;
+  --sh-home:#00c98a;
+  --sh-gov-fl:#00d977;
+  --sh-gov-ga:#2fea6b;
+  --sh-gov-al:#57e88f;
+  --sh-radio:#7fe8b0;
+  --sh-desk-statehouse:#00c96b;
+  --sh-desk-emerald:#0fe07a;
+  --sh-desk-space:#2e7bff;
+  --sh-desk-georgia:#00bfa0;
+  --sh-desk-alabama:#3fe0c0;
+  --sh-desk-unknown:#0b3d91;
+  --sh-desk-grand:#1493d8;
+  --sh-wire:#1fa8ff;
+  --sh-desks:#2470e0;
+  --sh-files:#4fe3a5;
 }
 /* wire groups: heading + left rule in the group's own shade */
 .wire-group{border-left:4px solid var(--aqua); padding-left:10px}
@@ -357,9 +360,9 @@ a.desk:hover{background:var(--lift-2)}
 .dp-grand .dossier-hero{border-bottom:3px solid var(--sh-desk-grand)}
 .dp-grand .dossier-hero .file-no{color:var(--sh-desk-grand)}
 
-/* ===== Gold accents (site-wide) ===== */
-:root{--gold:#c9a227; --gold-2:#e8c766}
-::selection{background:var(--gold); color:#06222b}
+/* ===== Yellow neon accents (site-wide; were gold until the 2026-11-25 recolor) ===== */
+:root{--gold:#f7e600; --gold-2:#fff94d}
+::selection{background:var(--gold); color:#0a1466}
 .site-header{border-bottom:2px solid var(--gold)}
 .wordmark small{color:var(--gold-2)}
 .main-nav a:hover{color:var(--gold-2)}
@@ -377,8 +380,8 @@ a.desk:hover{background:var(--lift-2)}
 .correction .when{color:var(--gold-2)}
 
 /* ===== Most Wanted sub-desk ===== */
-.file img.mw-poster{height:330px;object-fit:contain;background:#0a141f;padding:8px}
-.mw-nophoto{height:330px;display:flex;align-items:center;justify-content:center;background:#0a141f;color:var(--muted);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:12px}
+.file img.mw-poster{height:330px;object-fit:contain;background:#060d33;padding:8px}
+.mw-nophoto{height:330px;display:flex;align-items:center;justify-content:center;background:#060d33;color:var(--muted);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:12px}
 .mw-status{font-weight:700;color:var(--gold-2)}
 
 /* Tagline under the wordmark (Jeff, 2026-11-12) */
@@ -386,11 +389,11 @@ a.desk:hover{background:var(--lift-2)}
 
 /* World News desks (fork, 2026-11-23) */
 :root{
-  --sh-desk-americas:#159a86;
-  --sh-desk-europe:#2a9d8f;
-  --sh-desk-asiapacific:#4fb0a5;
-  --sh-desk-middleeast:#0e7a8a;
-  --sh-desk-africa:#0ea47a;
+  --sh-desk-americas:#00c96b;
+  --sh-desk-europe:#00bfa0;
+  --sh-desk-asiapacific:#3fe0c0;
+  --sh-desk-middleeast:#0e5ac9;
+  --sh-desk-africa:#0fe07a;
 }
 .desk-americas{border-top-color:var(--sh-desk-americas)}
 .desk-americas .status{color:var(--sh-desk-americas); border-color:var(--sh-desk-americas)}
